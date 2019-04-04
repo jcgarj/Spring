@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout :: head"></head>
+    <body>
+        <header th:replace="layout/layout :: header"></header>
+
+        <div class="container py-4">
+            <div class="card">
+                <div class="card-header" th:text="${titulo}"></div>
+                <div class="card-body">
+                    <form th:action="@{/form}" th:object="${cliente}" method="post">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>
+                                    <h2>Nombre</h2>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{nombre}" class="form-control"/>
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2>Apellido</h2>
+                                </td>
+                                <td>
+                                    <input type="text" th:field="*{apellido}" class="form-control"/>
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2>Email</h2>
+                                </td>
+                                <td>
+                                    <input type="email" th:field="*{email}" class="form-control"/>
+                                    <small class="form-text text-danger" th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" value="Crear Cliente" class="btn btn-primary"/></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="layout/layout :: footer"></footer>
+    </body>
+</html>
