@@ -2,6 +2,10 @@
     color: #97c93e !important
 }
 
+#header{
+    background: linear-gradient(90deg,black,#141414 25%,#212121);
+}
+
 #header img{
     width: 150px;
 }
@@ -35,7 +39,7 @@
 }
 
 #footer{
-    background: linear-gradient(90deg,#1c3643,#273b47 25%,#1e5372);
+    background: linear-gradient(90deg,black,#141414 25%,#212121);
     color: white;
     position:fixed;
     bottom:0;
