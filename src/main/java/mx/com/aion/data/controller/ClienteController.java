@@ -1,7 +1,7 @@
 package mx.com.aion.data.controller;
 
+import mx.com.aion.data.models.dao.IClienteDao;
 import mx.com.aion.data.models.entity.Cliente;
-import mx.com.aion.data.models.service.IClineteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("cliente")
 public class ClienteController {
 
     @Autowired
-    private IClineteService clienteService;
+    private IClienteDao clienteService;
 
     @RequestMapping(value = "/listar", method = RequestMethod.GET)
     public String listar(Model model){
@@ -40,9 +41,9 @@ public class ClienteController {
     @RequestMapping(value = "/form/{id}")
     public String editar(@PathVariable(value = "id") Long id, Map<String,Object> model){
 
-        Cliente cliente = null;
+        Optional<Cliente> cliente = null;
         if(id > 0 ){
-            cliente = clienteService.findOne(id);
+            cliente = clienteService.findById(id);
         }
         else{
             return "redirect:/listar";
@@ -55,7 +56,7 @@ public class ClienteController {
     @RequestMapping(value = "/eliminar/{id}")
     public String eliminar(@PathVariable(value = "id") Long id){
         if(id > 0 ){
-            clienteService.delete(id);
+            clienteService.deleteById(id);
         }
         return "redirect:/listar";
     }
@@ -70,6 +71,5 @@ public class ClienteController {
         status.setComplete();
         return "redirect:listar";
     }
-
 
 }
