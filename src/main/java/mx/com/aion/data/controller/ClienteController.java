@@ -29,6 +29,20 @@ public class ClienteController {
         return "listar";
     }
 
+    @RequestMapping(value = "/index")
+    public String index(Model model){
+        model.addAttribute("titulo", "Listado de clientes");
+        model.addAttribute("clientes", clienteService.findAll());
+        return "index";
+    }
+
+    @RequestMapping(value = "/login")
+    public String login(Model model){
+        model.addAttribute("titulo", "Listado de clientes");
+        model.addAttribute("clientes", clienteService.findAll());
+        return "login";
+    }
+
     @RequestMapping(value = "/form")
     public String crear(Map<String,Object> model){
 

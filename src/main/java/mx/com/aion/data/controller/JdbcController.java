@@ -9,12 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class JdbcController {
 
-    String sql = "SELECT * FROM DSB_CFG_ADOC_QUERY WHERE VC_QUERY_ID = ?";
+    String sql = "SELECT VC_QUERY_ID, N_QUERY_ACTIVE, VC_QUERY_DESCRIPTION, VC_QUERY_VERSION, VC_QUERY_STATEMENT, VC_QUERY_DATE, VC_QUERY_AUTHOR, VC_MODULE_ID "
+            + "FROM DSB_CFG_ADOC_QUERY "
+            + "WHERE VC_QUERY_ID=? ";
 
     String paramId = "GRUPO_RSVALIDAUSUARIO";
 
@@ -29,12 +32,15 @@ public class JdbcController {
         return jdbcTemplate.query("select * from clientes", new BeanPropertyRowMapper<>(Cliente.class));
     }
 
+    @GetMapping("/listaReglas")
+    public List<DsbCfgAdocQuery> getReglas(){
+        return jdbcTemplate.query("select * from DSB_CFG_ADOC_QUERY", new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
+    }
+
     @GetMapping("/reglas")
     public List<DsbCfgAdocQuery> getQuery(){
 
         Optional<DsbCfgAdocQuery> dsbCfgAdocQuery1 = null;
-        dsbCfgAdocQuery.save(new DsbCfgAdocQuery("query1",1,"Ejemplo1","1","algo","01-01-1999","jesus","Producto"));
-        dsbCfgAdocQuery.save(new DsbCfgAdocQuery("query2",1,"Ejemplo1","1","algo","01-01-1999","jesus","Producto"));
         String id = "GRUPO_RSVALIDAUSUARIO";
         dsbCfgAdocQuery1 = dsbCfgAdocQuery.findById(id);
         dsbCfgAdocQuery1.get().getVcModuleId();
@@ -52,9 +58,9 @@ public class JdbcController {
     }
 
     @GetMapping("/revisar")
-    public List<DsbCfgAdocQuery> find(Model model){
-        DsbCfgAdocQuery dsbCfgClobQuery = jdbcTemplate.queryForObject(sql, new Object[]{paramId}, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
-        return (List<DsbCfgAdocQuery>) dsbCfgClobQuery;
+    public DsbCfgAdocQuery find(Model model){
+        DsbCfgAdocQuery dsbCfgAdocQuery = jdbcTemplate.queryForObject(sql, new Object[]{paramId}, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
+        return dsbCfgAdocQuery;
     }
 
 }
