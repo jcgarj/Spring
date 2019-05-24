@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout :: head"></head>
+    <body>
+        <header th:replace="layout/layout :: header"></header>
+        <div class="container py-4">
+            <div class="card">
+                <div class="card-header" th:text="${titulo}"></div>
+                <div class="table-responsive">
+                    <table class="table table-hovertable-hover table-striped table-bordered">
+                        <thead class="thead-inverse" style="background: #343a40; color: white;">
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Proyecto</th>
+                            <th>Ambiente</th>
+                            <th>Navegador</th>
+                            <th>IP Dashboard</th>
+                            <th>Puerto Dashboard</th>
+                            <th>Usuario Dashboard</th>
+                            <th>Contraseña Dashboard</th>
+                            <th>URL Dashboard</th>
+                            <th>Tipo de Servidor</th>
+                            <th>Subtipo de Servidor</th>
+                            <th>IP del Servidor</th>
+                            <th>Puerto del Servidor</th>
+                            <th>Usuario del Servidor</th>
+                            <th>Contraseña del Servidor</th>
+                            <th>URL del Dashboard</th>
+                            <th>Esquema</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ambiente: ${ambientes}">
+                            <td th:text="${ambiente.vcClientName}"></td>
+                            <td th:text="${ambiente.vcProjectName}"></td>
+                            <td th:text="${ambiente.vcDashboardType}"></td>
+                            <td th:text="${ambiente.vcBrowser}"></td>
+                            <td th:text="${ambiente.vcIp}"></td>
+                            <td th:text="${ambiente.vcPort}"></td>
+                            <td th:text="${ambiente.vcLoginUsr}"></td>
+                            <td th:text="${ambiente.vcLoginPass}"></td>
+                            <td th:text="${ambiente.vcUrl}"></td>
+                            <td th:text="${ambiente.vcServerTypeName}"></td>
+                            <td th:text="${ambiente.vcServerType}"></td>
+                            <td th:text="${ambiente.vcServerIp}"></td>
+                            <td th:text="${ambiente.vcServerPort}"></td>
+                            <td th:text="${ambiente.vcServerUsr}"></td>
+                            <td th:text="${ambiente.vcServerPass}"></td>
+                            <td th:text="${ambiente.vcServerUrl}"></td>
+                            <td th:text="${ambiente.vcServerSchema}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="layout/layout :: footer"></footer>
+    </body>
+</html>

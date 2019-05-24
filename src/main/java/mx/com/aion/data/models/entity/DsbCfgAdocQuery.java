@@ -1,17 +1,16 @@
 package mx.com.aion.data.models.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Entity(name="\"DSB_CFG_ADOC_QUERY\"")
 @Table(name="\"DSB_CFG_ADOC_QUERY\"")
-public class DsbCfgAdocQuery implements Serializable {
+public class DsbCfgAdocQuery implements Serializable {//Ocupa hibernate
 
     @Id
-    @NotEmpty(message = "Es un campo obligatorio")
     @Column(name = "VC_QUERY_ID")
     private String vcQueryId;
     @Column(name = "N_QUERY_ACTIVE")
@@ -28,30 +27,6 @@ public class DsbCfgAdocQuery implements Serializable {
     private String vcQueryAuthor;
     @Column(name = "VC_MODULE_ID")
     private String vcModuleId;
-
-    public DsbCfgAdocQuery() {
-    }
-
-    public DsbCfgAdocQuery(@NotEmpty(message = "Es un campo obligatorio") String vcQueryId, @NotEmpty(message = "Es un campo obligatorio") long nQueryActive, @NotEmpty(message = "Es un campo obligatorio") String vcQueryDescription, @NotEmpty(message = "Es un campo obligatorio") String vcQueryVersion, @NotEmpty(message = "Es un campo obligatorio") String vcQueryStatement, @NotEmpty(message = "Es un campo obligatorio") String vcQueryDate, @NotEmpty(message = "Es un campo obligatorio") String vcQueryAuthor, @NotEmpty(message = "Es un campo obligatorio") String vcModuleId) {
-        this.vcQueryId = vcQueryId;
-        this.nQueryActive = nQueryActive;
-        this.vcQueryDescription = vcQueryDescription;
-        this.vcQueryVersion = vcQueryVersion;
-        this.vcQueryStatement = vcQueryStatement;
-        this.vcQueryDate = vcQueryDate;
-        this.vcQueryAuthor = vcQueryAuthor;
-        this.vcModuleId = vcModuleId;
-    }
-
-    @PrePersist
-    public void prePersist(){
-
-        Date fechaHoy = new Date();
-        SimpleDateFormat formatoEsMX = new SimpleDateFormat("dd/MM/yyyy");
-        vcQueryDate = formatoEsMX.format(fechaHoy);
-        System.out.println(vcQueryDate);
-    }
-
 
     public String getVcQueryId() {
         return vcQueryId;
