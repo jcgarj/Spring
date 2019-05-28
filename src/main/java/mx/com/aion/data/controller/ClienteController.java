@@ -2,7 +2,7 @@ package mx.com.aion.data.controller;
 
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
-import mx.com.aion.data.models.entity.DataSheet;
+import mx.com.aion.data.models.entity.entity.DataSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

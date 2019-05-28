@@ -1,7 +1,7 @@
 package mx.com.aion.data.service;
 
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
-import mx.com.aion.data.models.entity.DsbCfgAdocQuery;
+import mx.com.aion.data.models.entity.entity.DsbCfgAdocQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

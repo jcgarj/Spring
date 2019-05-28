@@ -1,4 +1,4 @@
-package mx.com.aion.data.models.entity;
+package mx.com.aion.data.models.entity.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Column;
