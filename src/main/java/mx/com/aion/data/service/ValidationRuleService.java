@@ -7,12 +7,13 @@ package mx.com.aion.data.service;
 
 import bsh.Interpreter;
 import mx.com.aion.data.enums.Bandera;
+import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.jsp.jstl.sql.Result;
 import javax.servlet.jsp.jstl.sql.ResultSupport;
 import java.sql.Connection;
@@ -37,12 +38,14 @@ public class ValidationRuleService {
 	/**
 	*Variables de servicios inyectados 
 	*/
-	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	private DsbCfgAdocQueryService dsbCfgAdocQueryService;
-	
+	private IDsbCfgAdcQueryDao dsbCfgAdocQueryService;
+
+    public ValidationRuleService(JdbcTemplate jdbcTemplate, IDsbCfgAdcQueryDao dsbCfgAdocQueryService) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dsbCfgAdocQueryService = dsbCfgAdocQueryService;
+    }
+
     /**
     * Variables privadas de instancia
     */
@@ -63,7 +66,7 @@ public class ValidationRuleService {
      * @param ai_rowNumber Numero de registro a procesar
      * @return Verdadero si todas las validaciones fueron correctas
      */
-    protected boolean generateValidation(String as_groupId, int ai_rowNumber, Object aobj_beanData, String vcDebug) {
+    public boolean generateValidation(String as_groupId, int ai_rowNumber, Object aobj_beanData, String vcDebug) {
         im_fieldErrors = new HashMap<String, String>();
         im_newValues = new HashMap<String, Object>();
         Result lrs_Rules = null;
@@ -85,27 +88,27 @@ public class ValidationRuleService {
                 for (li_Row = 0; li_Row < lsm_Rules.length; li_Row++) {
                 	// Se imprime el numero de regla que se va a aplicar
                 	if(Bandera.VERDADERO.getValue().equals(vcDebug)){
-                		String orden = lsm_Rules[li_Row].get("ORDER").toString();
-                		String descErr = lsm_Rules[li_Row].get("DESC_ERR").toString();
+                		String orden = lsm_Rules[li_Row].get("N_RULE_ORDER").toString();
+                		String descErr = lsm_Rules[li_Row].get("VC_RULE_CONFIG_DESC_ERROR").toString();
                 		
-                		System.out.println("\tProcesando "+descErr.substring(descErr.indexOf("REGLA"))+" Orden "+orden );
-                	}//FIELD
+                		//System.out.println("\tProcesando "+descErr.substring(descErr.indexOf("REGLA"))+" Orden "+orden );
+                	}//VC_RULE_FIELD
                 	
                     // Limpia el hashMap de dependencias
                     if (lhm_values != null && lhm_values.size() > 0) {
                         lhm_values.clear();
                     }
                     // verifica si el campo tiene dependencias
-                    if (lsm_Rules[li_Row].get("DEPENDENCE") != null && !lsm_Rules[li_Row].get("DEPENDENCE").toString().equals("")) {
+                    if (lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE") != null && !lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString().equals("")) {
                         // Obtiene los valores de los campos dependencia
-                        lhm_values = getvaluesFromBeanDependence(lsm_Rules[li_Row].get("DEPENDENCE").toString(), aobj_beanData, lv_dependence, ai_rowNumber);
+                        lhm_values = getvaluesFromBeanDependence(lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString(), aobj_beanData, lv_dependence, ai_rowNumber);
                     }
                     // Verifica si el campo tiene una regla definida
-                    if (lsm_Rules[li_Row].get("RULE") != null && !lsm_Rules[li_Row].get("RULE").toString().equals("")) {
-                        if (validateData(lsm_Rules[li_Row].get("FIELD").toString(), lsm_Rules[li_Row].get("RULE").toString(), lsm_Rules[li_Row].get("DESC_ERR").toString(), BeanManipulation.getDataFromBeanMethod(aobj_beanData.getClass(), aobj_beanData, lsm_Rules[li_Row].get("FIELD").toString()), ai_rowNumber, lhm_values)) {
-                            BeanManipulation.setDataToBeanMethod(aobj_beanData.getClass(), aobj_beanData, lsm_Rules[li_Row].get("FIELD").toString(), iobj_newValue);
+                    if (lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE") != null && !lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().equals("")) {
+                        if (validateData(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_DESC_ERROR").toString(), BeanManipulation.getDataFromBeanMethod(aobj_beanData.getClass(), aobj_beanData, lsm_Rules[li_Row].get("VC_RULE_FIELD").toString()), ai_rowNumber, lhm_values)) {
+                            BeanManipulation.setDataToBeanMethod(aobj_beanData.getClass(), aobj_beanData, lsm_Rules[li_Row].get("VC_RULE_FIELD").toString(), iobj_newValue);
                             if(Bandera.VERDADERO.getValue().equals(vcDebug))
-                            	System.out.println("\t\tRegla aplicada, campo "+lsm_Rules[li_Row].get("FIELD").toString()+" = "+iobj_newValue );
+                            	System.out.println("\t\tRegla aplicada, campo "+lsm_Rules[li_Row].get("VC_RULE_FIELD").toString()+" = "+iobj_newValue );
                         }
                     }
                 }
@@ -136,7 +139,7 @@ public class ValidationRuleService {
      * un arreglo
      * @return Verdadero si todas las validaciones son correctas
      */
-    protected boolean generateValidation(String as_groupId, int ai_rowNumber, HashMap ahm_Data, String vcDebug) {
+    public boolean generateValidation(String as_groupId, int ai_rowNumber, HashMap ahm_Data, String vcDebug) {
         return generateValidation(as_groupId, ai_rowNumber, ahm_Data.values().toArray(), vcDebug);
     }
 
@@ -153,7 +156,7 @@ public class ValidationRuleService {
      * geenerar un arreglo
      * @return Verdadero si todas las validaciones son correctas
      */
-    protected boolean generateValidation(String as_groupId, int ai_rowNumber, String as_Data, String as_separator) {
+    public boolean generateValidation(String as_groupId, int ai_rowNumber, String as_Data, String as_separator) {
         return generateValidation(as_groupId, ai_rowNumber, as_Data.split(as_separator));
     }
 
@@ -167,7 +170,7 @@ public class ValidationRuleService {
      * @param aas_Data Arreglo con los valores a validar
      * @return Verdadero si todas las validaciones son correctas
      */
-    protected boolean generateValidation(String as_groupId, int ai_rowNumber, String[] aas_Data) {
+    public boolean generateValidation(String as_groupId, int ai_rowNumber, String[] aas_Data) {
         im_fieldErrors = new HashMap<String, String>();
         Result lrs_Rules = null;
         int li_Row = 0;
@@ -191,17 +194,17 @@ public class ValidationRuleService {
                         lhm_values.clear();
                     }
                     // verifica si el campo tiene dependencias
-                    if (lsm_Rules[li_Row].get("DEPENDENCE") != null && !lsm_Rules[li_Row].get("DEPENDENCE").toString().equals("")) {
+                    if (lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE") != null && !lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString().equals("")) {
                         // Obtiene los valores de los campos dependencia
-                        lhm_values = getvaluesFromArrayDependence(lsm_Rules[li_Row].get("DEPENDENCE").toString(), aas_Data, lv_dependence, ai_rowNumber);
+                        lhm_values = getvaluesFromArrayDependence(lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString(), aas_Data, lv_dependence, ai_rowNumber);
                     }
                     // Verifica si el campo tiene una regla definida
-                    if (lsm_Rules[li_Row].get("RULE") != null && !lsm_Rules[li_Row].get("RULE").toString().equals("")) {
+                    if (lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE") != null && !lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().equals("")) {
                         // Asigna un valor directamente al campo sin hacer ninguna validacion
-                        if (lsm_Rules[li_Row].get("RULE").toString().startsWith(":")) {
-                            aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("FIELD").toString().substring(1))] = lsm_Rules[li_Row].get("RULE").toString().substring(1);
-                        } else if (validateData(lsm_Rules[li_Row].get("FIELD").toString().substring(0, 1) + (Integer.parseInt(lsm_Rules[li_Row].get("FIELD").toString().substring(1)) + 1), lsm_Rules[li_Row].get("RULE").toString(), lsm_Rules[li_Row].get("DESC_ERR").toString(), aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("FIELD").toString().substring(1))], ai_rowNumber, lhm_values)) {
-                            aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("FIELD").toString().substring(1))] = iobj_newValue.toString();
+                        if (lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().startsWith(":")) {
+                            aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString().substring(1))] = lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().substring(1);
+                        } else if (validateData(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString().substring(0, 1) + (Integer.parseInt(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString().substring(1)) + 1), lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_DESC_ERROR").toString(), aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString().substring(1))], ai_rowNumber, lhm_values)) {
+                            aas_Data[Integer.parseInt(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString().substring(1))] = iobj_newValue.toString();
                         }
                     }
                 }
@@ -230,7 +233,7 @@ public class ValidationRuleService {
      * @param aas_Data Objeto Json con los valores a validar
      * @return Verdadero si todas las validaciones son correctas
      */
-    protected boolean generateValidation(String as_groupId, int ai_rowNumber, JSONObject aas_Data) {
+    public boolean generateValidation(String as_groupId, int ai_rowNumber, JSONObject aas_Data) {
         im_fieldErrors = new HashMap<String, String>();
         Result lrs_Rules = null;
         int li_Row = 0;
@@ -254,17 +257,17 @@ public class ValidationRuleService {
                         lhm_values.clear();
                     }
                     // verifica si el campo tiene dependencias
-                    if (lsm_Rules[li_Row].get("DEPENDENCE") != null && !lsm_Rules[li_Row].get("DEPENDENCE").toString().equals("")) {
+                    if (lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE") != null && !lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString().equals("")) {
                         // Obtiene los valores de los campos dependencia
-                        lhm_values = getvaluesFromJsonDependence(lsm_Rules[li_Row].get("DEPENDENCE").toString(), aas_Data, lv_dependence, ai_rowNumber);
+                        lhm_values = getvaluesFromJsonDependence(lsm_Rules[li_Row].get("VC_RULE_DEPENDENCE").toString(), aas_Data, lv_dependence, ai_rowNumber);
                     }
                     // Verifica si el campo tiene una regla definida
-                    if (lsm_Rules[li_Row].get("RULE") != null && !lsm_Rules[li_Row].get("RULE").toString().equals("")) {
+                    if (lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE") != null && !lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().equals("")) {
                         // Asigna un valor directamente al campo sin hacer ninguna validacion
-                        if (lsm_Rules[li_Row].get("RULE").toString().startsWith(":")) {
-                            aas_Data.put(lsm_Rules[li_Row].get("FIELD").toString(), lsm_Rules[li_Row].get("RULE").toString());
-                        } else if (validateData(lsm_Rules[li_Row].get("FIELD").toString(), lsm_Rules[li_Row].get("RULE").toString(), lsm_Rules[li_Row].get("DESC_ERR").toString(), aas_Data.getString(lsm_Rules[li_Row].get("FIELD").toString()), li_Row, lhm_values)) {
-                            aas_Data.put(lsm_Rules[li_Row].get("FIELD").toString(), iobj_newValue.toString());
+                        if (lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString().startsWith(":")) {
+                            aas_Data.put(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString());
+                        } else if (validateData(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_VALUE").toString(), lsm_Rules[li_Row].get("VC_RULE_CONFIG_DESC_ERROR").toString(), aas_Data.getString(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString()), li_Row, lhm_values)) {
+                            aas_Data.put(lsm_Rules[li_Row].get("VC_RULE_FIELD").toString(), iobj_newValue.toString());
                         }
                     }
                 }
@@ -294,7 +297,7 @@ public class ValidationRuleService {
              * Se inyecta servicio dsbCfgAdocQueryService y se resuelve la conexión utilizando Spring-JdbcTemplate
              */
         	System.out.println(as_groupId + "-" + ai_rowNumber);
-        	String sql = dsbCfgAdocQueryService.getDsbAdocQueryById("GET_RULE_VALIDATION").get().getVcQueryStatement().replaceAll("%GROUPID", as_groupId);
+        	String sql = dsbCfgAdocQueryService.findById("GET_RULE_VALIDATION").get().getVcQueryStatement().replaceAll("%GROUPID", as_groupId);
         	Result result = (Result) jdbcTemplate.query(sql, new ResultSetExtractor<Object>() {
         	        public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
         	        	return ResultSupport.toResult(rs);
@@ -623,7 +626,7 @@ public class ValidationRuleService {
             /* Modificado el 24/05/2016 por Salvador López
              * Se inyecta servicio dsbCfgAdocQueryService y se resuelve la conexión utilizando Spring-JdbcTemplate
              */
-            lsb_sentence.append(dsbCfgAdocQueryService.getDsbAdocQueryById(as_rule).get().getVcQueryStatement());
+            lsb_sentence.append(dsbCfgAdocQueryService.findById(as_rule).get().getVcQueryStatement());
             
             if (ahm_dependence != null && ahm_dependence.size() > 0) {
                 lit_key = ahm_dependence.keySet().iterator();
@@ -769,7 +772,7 @@ public class ValidationRuleService {
      * @return Retorna el objeto map con todos los errores generados en la
      * validacion del los datos del bean
      */
-    private Map<String, String> getErrors() {
+    public Map<String, String> getErrors() {
         return im_fieldErrors;
     }
 
@@ -800,7 +803,7 @@ public class ValidationRuleService {
         this.icls_beanClass = icls_beanClass;
     }
 
-	protected Object getIobj_newValue() {
+	public Object getIobj_newValue() {
 		return iobj_newValue;
 	}
 

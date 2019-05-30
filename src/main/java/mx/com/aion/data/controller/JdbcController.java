@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -76,16 +77,16 @@ public class JdbcController {
         return dsbCfgAdocQuery;
     }
 
-    @GetMapping("/test")
-    public ArrayList<ResultsTest> test(){
-        ArrayList<ResultsTest> executeTesting = executeTesting("rsValidaCredenciales");
+    @GetMapping("/test/{id}")
+    public ArrayList<ResultsTest> test(@PathVariable(value = "id") String id){
+        ArrayList<ResultsTest> executeTesting = executeTesting(id);
 
         return executeTesting;
     }
 
     public ArrayList<ResultsTest> executeTesting(String serviceName){
         ArrayList<ResultsTest> resultados = new ArrayList<>();
-        ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplate);
+        ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplate, dsbCfgAdocQuery);
         String path = serviceDAOImp.obtainPathMatrixByServiceName(serviceName);
         String urlService = serviceDAOImp.obtainUrlServiceByServiceName(serviceName);
         Map<String, ServiceTagsParameters> dataParameters = serviceDAOImp.obtainDataParameters(serviceName);
@@ -138,9 +139,9 @@ public class JdbcController {
 
             try {
 
-                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService);
+                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService, jdbcTemplate, dsbCfgAdocQuery);
                 resultsTest.setResponseTest(respuesta);
-                resultsTest.setSessionID(sendJSON.obtainValueOfJSONResponse("sessionID", respuesta));
+                //resultsTest.setSessionID(sendJSON.obtainValueOfJSONResponse("sessionID", respuesta));
                 resultados.add(resultsTest);
 
             } catch (Exception e) {
@@ -153,14 +154,6 @@ public class JdbcController {
                     testExpectedResult, respuesta.replace("'", "''"), "");
         }
         return resultados;
-    }
-
-    private List<String> extractNameTags(Map<String, ServiceTagsParameters> dataParameters) {
-        List<String> tagsNames = new ArrayList<>();
-        for (int i = 0; i < dataParameters.size(); i++) {
-            System.out.println("valores de nombres de tags" + dataParameters.get(i).getTagNameId());
-        }
-        return tagsNames;
     }
 
 }
