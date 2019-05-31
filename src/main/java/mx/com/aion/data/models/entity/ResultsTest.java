@@ -4,7 +4,7 @@ public class ResultsTest {
 
     private String validateDataTesting;
     private String respuesta;
-    private String sessionID;
+    private String token;
 
     public ResultsTest(){}
 
@@ -24,11 +24,11 @@ public class ResultsTest {
         return respuesta;
     }
 
-    public void setSessionID(String sessionID) {
-        this.sessionID = sessionID;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public String getSessionID() {
-        return sessionID;
+    public String getToken() {
+        return token;
     }
 }

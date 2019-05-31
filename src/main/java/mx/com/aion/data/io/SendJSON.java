@@ -2,6 +2,8 @@ package mx.com.aion.data.io;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
@@ -58,15 +60,9 @@ public class SendJSON {
         return respuesta;
     }
 
-    /*public String obtainValueOfJSONResponse(String tagName, String response){
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = (JSONObject) parser.parse(response);
-        } catch (ParseException e) {
-            LOGGER.log(Level.SEVERE, "Error al obtener los valores del response ", e);
-        }
-        assert jsonObject != null;
-        return (String) jsonObject.get(tagName);
-    }*/
+    public String obtainValueOfJSONResponse(String tagName, String response){
+        JsonParser parser= new JsonParser();
+        JsonElement element = parser.parse(response);
+        return element.getAsJsonObject().get(tagName).getAsString();
+    }
 }
