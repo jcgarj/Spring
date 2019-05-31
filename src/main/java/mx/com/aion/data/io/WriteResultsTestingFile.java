@@ -3,13 +3,13 @@ package mx.com.aion.data.io;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class WriteResultsTestingFile {
 
@@ -51,7 +51,7 @@ public class WriteResultsTestingFile {
         }
         catch (Exception e)
         {
-            LOGGER.log(Level.SEVERE, "Error al obtener la información de la matriz de pruebas ", e);
+            //LOGGER.log(Level.SEVERE, "Error al obtener la información de la matriz de pruebas ", e);
         }
         return hoja;
     }
@@ -78,7 +78,7 @@ public class WriteResultsTestingFile {
             }
             catch (IOException e)
             {
-                LOGGER.log(Level.SEVERE, "Error al registrar los resultados en el archivo excel ", e);
+              //  LOGGER.log(Level.SEVERE, "Error al registrar los resultados en el archivo excel ", e);
             }
         }
 

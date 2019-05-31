@@ -17,9 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class SendJSON {
 
@@ -55,7 +54,7 @@ public class SendJSON {
             ResponseBody body = response.getBody();
             respuesta = body.asString().replace(",", ",\n");
         }catch (Exception e){
-            LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
+            //LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
         }
         return respuesta;
     }
