@@ -1,4 +1,4 @@
-package mx.com.aion.data.models.entity.entity;
+package mx.com.aion.data.models.entity;
 
 public class DataSheet {
 

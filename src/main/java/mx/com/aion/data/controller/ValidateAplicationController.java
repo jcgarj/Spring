@@ -23,7 +23,7 @@ public class ValidateAplicationController {
             + "FROM DSB_CFG_ADOC_QUERY "
             + "WHERE VC_QUERY_ID=? ";
 
-    String paramId = "GRUPO_RSVALIDAUSUARIO";
+    String paramId = "GRUPO_ET_TOKEN";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

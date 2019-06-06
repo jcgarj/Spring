@@ -23,6 +23,7 @@ public class ExecuteTesting {
     private JdbcTemplate jdbcTemplate;
     private IDsbCfgAdcQueryDao dsbCfgAdocQuery;
     private static final Logger LOGGER = Logger.getLogger(ExecuteTesting.class.getName());
+    private boolean isToken = true;
 
     public ExecuteTesting(JdbcTemplate jdbcTemplate, IDsbCfgAdcQueryDao dsbCfgAdocQuery) {
         this.jdbcTemplate = jdbcTemplate;
@@ -34,6 +35,7 @@ public class ExecuteTesting {
         ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplate, dsbCfgAdocQuery);
         String path = serviceDAOImp.obtainPathMatrixByServiceName(serviceName);
         String urlService = serviceDAOImp.obtainUrlServiceByServiceName(serviceName);
+        String vcRuleGroup = serviceDAOImp.obtainVcRuleGroupByServiceName(serviceName);
         Map<String, ServiceTagsParameters> dataParameters = serviceDAOImp.obtainDataParameters(serviceName);
         List<String> tagsNames = serviceDAOImp.obtainTagsNames(serviceName);
         ArrayList<Map> collectionTestingTags = new ArrayList<>();
@@ -47,6 +49,9 @@ public class ExecuteTesting {
 
         } catch (InvalidFormatException e) {
             LOGGER.log(Level.SEVERE, "Formato incorrecto", e);
+        }
+        if(!vcRuleGroup.equals("GRUPO_ET_TOKEN")){
+            isToken = false;
         }
 
         for (Map collectionTestingTag : collectionTestingTags) {
@@ -81,10 +86,9 @@ public class ExecuteTesting {
             String respuesta = "";
 
             try {
-
-                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService, jdbcTemplate, dsbCfgAdocQuery);
+                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService, jdbcTemplate, dsbCfgAdocQuery, vcRuleGroup, serviceName, isToken);
                 resultsTest.setResponseTest(respuesta);
-                resultsTest.setToken(sendJSON.obtainValueOfJSONResponse("token", respuesta));
+                //resultsTest.setToken(sendJSON.obtainValueOfJSONResponse("token", respuesta));
                 resultados.add(resultsTest);
 
             } catch (Exception e) {

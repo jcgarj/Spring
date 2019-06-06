@@ -2,7 +2,7 @@ package mx.com.aion.data.controller;
 
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
-import mx.com.aion.data.models.entity.entity.DataSheet;
+import mx.com.aion.data.models.entity.DataSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,7 +86,6 @@ public class ClienteController {
             return "form";
         }
         if (cliente.getId() == null ){
-
             jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(SET_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getId(), cliente.getNombre(), cliente.getApellido(),cliente.getEmail(), cliente.getCrateAt());
         }else {
             jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(UPDATE_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getNombre(), cliente.getApellido(),cliente.getEmail(), cliente.getCrateAt(), cliente.getId());

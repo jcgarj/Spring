@@ -13,5 +13,5 @@ public interface IServiceDAO {
     List<String> obtainTagsNames(String serviceName);
     String obtainPathMatrixByServiceName(String serviceName);
     String obtainUrlServiceByServiceName(String serviceName);
-
+    String obtainVcRuleGroupByServiceName(String serviceName);
 }

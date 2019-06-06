@@ -16,6 +16,7 @@ public class ServiceTagsParameters {
     private String  format;
     private String  tagValues;
     private String  depStructure;
+    private String vcRuleGroup;
 
     public String getTagNameId() {
         return tagNameId;
@@ -127,5 +128,13 @@ public class ServiceTagsParameters {
 
     public void setDepStructure(String depStructure) {
         this.depStructure = depStructure;
+    }
+
+    public String getVcRuleGroup() {
+        return vcRuleGroup;
+    }
+
+    public void setVcRuleGroup(String vcRuleGroup) {
+        this.vcRuleGroup = vcRuleGroup;
     }
 }

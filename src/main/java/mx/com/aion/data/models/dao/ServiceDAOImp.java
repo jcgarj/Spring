@@ -48,6 +48,11 @@ public class ServiceDAOImp implements IServiceDAO {
     }
 
     @Override
+    public String obtainVcRuleGroupByServiceName(String serviceName) {
+        return jdbcTemplate.queryForList(dsbCfgAdcQueryDao.findById(GET_RULE_GROUP.getValue()).get().getVcQueryStatement(), new Object[]{serviceName}, String.class).get(0);
+    }
+
+    @Override
     public boolean registerDataResults(String serviceName, String urlService, String request, String testExpectedResult, String expectedResults,
                                   String response, String testingResults) {
 
