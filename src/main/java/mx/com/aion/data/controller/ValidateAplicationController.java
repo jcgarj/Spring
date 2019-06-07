@@ -1,4 +1,5 @@
 package mx.com.aion.data.controller;
+
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
 import mx.com.aion.data.models.entity.ResultsTest;
@@ -10,14 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 public class ValidateAplicationController {
-    private static final Logger LOGGER = Logger.getLogger(ValidateAplicationController.class.getName());
 
     String sql = "SELECT VC_QUERY_ID, N_QUERY_ACTIVE, VC_QUERY_DESCRIPTION, VC_QUERY_VERSION, VC_QUERY_STATEMENT, VC_QUERY_DATE, VC_QUERY_AUTHOR, VC_MODULE_ID "
             + "FROM DSB_CFG_ADOC_QUERY "
@@ -43,11 +42,6 @@ public class ValidateAplicationController {
 
     @GetMapping("/reglas")
     public List<DsbCfgAdocQuery> getQuery(){
-
-        Optional<DsbCfgAdocQuery> dsbCfgAdocQuery1 = null;
-        String id = "GRUPO_RSVALIDAUSUARIO";
-        dsbCfgAdocQuery1 = dsbCfgAdocQuery.findById(id);
-        dsbCfgAdocQuery1.get().getVcModuleId();
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
     }
 
