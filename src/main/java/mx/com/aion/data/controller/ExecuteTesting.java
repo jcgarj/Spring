@@ -10,7 +10,11 @@ import mx.com.aion.data.models.entity.ResultsTest;
 import mx.com.aion.data.models.entity.ServiceTagsParameters;
 import mx.com.aion.data.util.ValidateTags;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,22 +23,22 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service
+@Component
 public class ExecuteTesting {
 
+    @Autowired
+    @Qualifier("warmachine")
     private JDBCTemplateWarMachine jdbcTemplateWarMachine;
+    @Autowired
+    @Qualifier("easytransfer")
     private JDBCTemplateEasyTransfer jdbcTemplateEasyTransfer;
+    @Autowired
     private IDsbCfgAdcQueryDao dsbCfgAdocQuery;
     private static final Logger LOGGER = Logger.getLogger(ExecuteTesting.class.getName());
     private boolean isToken = true;
 
-    public ExecuteTesting(JDBCTemplateWarMachine jdbcTemplateWarMachine, JDBCTemplateEasyTransfer jdbcTemplateEasyTransfer, IDsbCfgAdcQueryDao dsbCfgAdocQuery) {
-        this.jdbcTemplateWarMachine = jdbcTemplateWarMachine;
-        this.jdbcTemplateEasyTransfer = jdbcTemplateEasyTransfer;
-        this.dsbCfgAdocQuery = dsbCfgAdocQuery;
-    }
-
-    public ArrayList<ResultsTest> executeTesting(String serviceName) {
+    @GetMapping("/test/{serviceName}")
+    public ArrayList<ResultsTest> executeTesting(@PathVariable(value = "serviceName") String serviceName) {
         ArrayList<ResultsTest> resultados = new ArrayList<>();
         ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplateWarMachine.getDS(), dsbCfgAdocQuery);
         String path = serviceDAOImp.obtainPathMatrixByServiceName(serviceName);

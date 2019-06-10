@@ -8,9 +8,7 @@ import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
 
-import java.util.logging.Level;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class GenerateToken {
 
@@ -33,7 +31,7 @@ public class GenerateToken {
             ResponseBody body = response.getBody();
             respuesta = body.asString().replace(",", ",\n");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
+            //LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
         }
         return obtainValueOfJSONResponse("token", respuesta);
     }

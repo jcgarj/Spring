@@ -4,7 +4,6 @@ import mx.com.aion.data.datasources.JDBCTemplateEasyTransfer;
 import mx.com.aion.data.datasources.JDBCTemplateWarMachine;
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
-import mx.com.aion.data.models.entity.ResultsTest;
 import mx.com.aion.data.models.entity.entity.DsbCfgAdocQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,10 +11,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -70,12 +67,6 @@ public class ValidateAplicationController {
     public DsbCfgAdocQuery find(Model model) {
         DsbCfgAdocQuery dsbCfgAdocQuery = jdbcTemplate.queryForObject(sql, new Object[]{paramId}, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
         return dsbCfgAdocQuery;
-    }
-
-    @GetMapping("/test/{id}")
-    public ArrayList<ResultsTest> test(@PathVariable(value = "id") String id) {
-        ExecuteTesting executeTesting = new ExecuteTesting(jdbcTemplateWarMachine, jdbcTemplateEasyTransfer, dsbCfgAdocQuery);
-        return executeTesting.executeTesting(id);
     }
 
 }
