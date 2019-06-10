@@ -19,7 +19,7 @@ public class ReadDataTestingFile {
     private String serviceName;
     private String path;
 
-    public ReadDataTestingFile(List<String> cabeceras, String serviceName, String path){
+    public ReadDataTestingFile(List<String> cabeceras, String serviceName, String path) {
         this.cabeceras = cabeceras;
         this.path = path;
         this.serviceName = serviceName;
@@ -37,15 +37,14 @@ public class ReadDataTestingFile {
             ArrayList<XSSFCell> datosExcel = new ArrayList<>();
             XSSFRow row = sheet.getRow(i);
             collection = new HashMap<>();
-            for(int d = 0; d < cabeceras.size(); d++){
+            for (int d = 0; d < cabeceras.size(); d++) {
                 datosExcel.add(row.getCell(d));
             }
 
-            for(int r = 0; r < cabeceras.size(); r++){
-                if (datosExcel.get(r) == null){
+            for (int r = 0; r < cabeceras.size(); r++) {
+                if (datosExcel.get(r) == null) {
                     collection.put(cabeceras.get(r), "");
-                }
-                else{
+                } else {
                     collection.put(cabeceras.get(r), datosExcel.get(r).toString());
                 }
             }

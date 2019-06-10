@@ -9,11 +9,11 @@ import java.util.Optional;
 
 @Service
 public class DsbCfgAdocQueryService {
-	
-	@Autowired
-	private IDsbCfgAdcQueryDao dsbCfgAdocQueryDao;
-	
-	public Optional<DsbCfgAdocQuery> getDsbAdocQueryById(String paramId){
-		return dsbCfgAdocQueryDao.findById(paramId);
-	}
+
+    @Autowired
+    private IDsbCfgAdcQueryDao dsbCfgAdocQueryDao;
+
+    public Optional<DsbCfgAdocQuery> getDsbAdocQueryById(String paramId) {
+        return dsbCfgAdocQueryDao.findById(paramId);
+    }
 }

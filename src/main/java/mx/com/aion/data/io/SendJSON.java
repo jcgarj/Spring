@@ -22,10 +22,9 @@ public class SendJSON {
     public String sendReqTestRest(@NotNull List<String> tagsNames, Map values, String url, JdbcTemplate jdbcTemplate, IDsbCfgAdcQueryDao dsbCfgAdcQueryDao, String vcRuleGroup, String serviceName, boolean isToken) {
         String respuesta = "";
         RequestSpecification request = RestAssured.given();
-        if (isToken){
+        if (isToken) {
             request.headers("Content-Type", "application/json");
-        }
-        else {
+        } else {
             GenerateToken generateToken = new GenerateToken();
             request.headers("Content-Type", "application/json", "token", generateToken.obtainToken());
         }
@@ -38,26 +37,25 @@ public class SendJSON {
         ServiceType serviceType = new ServiceType();
 
 
-        ValidationRuleService validationRuleService= new ValidationRuleService(jdbcTemplate, dsbCfgAdcQueryDao);
-        validationRuleService.generateValidation(vcRuleGroup, 1, serviceType.obtainPojoByServiceName(serviceName,json), "V");
-        if(validationRuleService.getErrors().size() > 0){//hubo errores
+        ValidationRuleService validationRuleService = new ValidationRuleService(jdbcTemplate, dsbCfgAdcQueryDao);
+        validationRuleService.generateValidation(vcRuleGroup, 1, serviceType.obtainPojoByServiceName(serviceName, json), "V");
+        if (validationRuleService.getErrors().size() > 0) {//hubo errores
             for (int i = 0; i < validationRuleService.getErrors().size(); i++) {
                 System.out.println("Hubo errores " + validationRuleService.getErrors().get(i));
             }
 
-        }
-        else {
+        } else {
             System.out.println("Todo chido");
         }
 
         request.body(json.toString());
         System.out.println(json.toString());
 
-        try{
+        try {
             Response response = request.post(url);
             ResponseBody body = response.getBody();
             respuesta = body.asString().replace(",", ",\n");
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
         }
         return respuesta;

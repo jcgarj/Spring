@@ -19,7 +19,7 @@ public class GenerateToken {
     public String obtainToken() {
         String respuesta = "";
         RequestSpecification request = RestAssured.given();
-            request.headers("Content-Type", "application/json");
+        request.headers("Content-Type", "application/json");
 
         JSONObject json = new JSONObject();
         json.put("username", "lmarquez");
@@ -28,18 +28,18 @@ public class GenerateToken {
         request.body(json.toString());
         System.out.println(json.toString());
 
-        try{
+        try {
             Response response = request.post(url);
             ResponseBody body = response.getBody();
             respuesta = body.asString().replace(",", ",\n");
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al enviar el request ", e);
         }
         return obtainValueOfJSONResponse("token", respuesta);
     }
 
-    public String obtainValueOfJSONResponse(String tagName, String response){
-        JsonParser parser= new JsonParser();
+    public String obtainValueOfJSONResponse(String tagName, String response) {
+        JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(response);
         return element.getAsJsonObject().get(tagName).getAsString();
     }

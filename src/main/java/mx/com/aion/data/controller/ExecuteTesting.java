@@ -1,5 +1,7 @@
 package mx.com.aion.data.controller;
 
+import mx.com.aion.data.datasources.JDBCTemplateEasyTransfer;
+import mx.com.aion.data.datasources.JDBCTemplateWarMachine;
 import mx.com.aion.data.io.ReadDataTestingFile;
 import mx.com.aion.data.io.SendJSON;
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
@@ -8,7 +10,7 @@ import mx.com.aion.data.models.entity.ResultsTest;
 import mx.com.aion.data.models.entity.ServiceTagsParameters;
 import mx.com.aion.data.util.ValidateTags;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,22 +19,24 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
 public class ExecuteTesting {
 
-
-    private JdbcTemplate jdbcTemplate;
+    private JDBCTemplateWarMachine jdbcTemplateWarMachine;
+    private JDBCTemplateEasyTransfer jdbcTemplateEasyTransfer;
     private IDsbCfgAdcQueryDao dsbCfgAdocQuery;
     private static final Logger LOGGER = Logger.getLogger(ExecuteTesting.class.getName());
     private boolean isToken = true;
 
-    public ExecuteTesting(JdbcTemplate jdbcTemplate, IDsbCfgAdcQueryDao dsbCfgAdocQuery) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ExecuteTesting(JDBCTemplateWarMachine jdbcTemplateWarMachine, JDBCTemplateEasyTransfer jdbcTemplateEasyTransfer, IDsbCfgAdcQueryDao dsbCfgAdocQuery) {
+        this.jdbcTemplateWarMachine = jdbcTemplateWarMachine;
+        this.jdbcTemplateEasyTransfer = jdbcTemplateEasyTransfer;
         this.dsbCfgAdocQuery = dsbCfgAdocQuery;
     }
 
-    public ArrayList<ResultsTest> executeTesting(String serviceName){
+    public ArrayList<ResultsTest> executeTesting(String serviceName) {
         ArrayList<ResultsTest> resultados = new ArrayList<>();
-        ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplate, dsbCfgAdocQuery);
+        ServiceDAOImp serviceDAOImp = new ServiceDAOImp(jdbcTemplateWarMachine.getDS(), dsbCfgAdocQuery);
         String path = serviceDAOImp.obtainPathMatrixByServiceName(serviceName);
         String urlService = serviceDAOImp.obtainUrlServiceByServiceName(serviceName);
         String vcRuleGroup = serviceDAOImp.obtainVcRuleGroupByServiceName(serviceName);
@@ -50,7 +54,7 @@ public class ExecuteTesting {
         } catch (InvalidFormatException e) {
             LOGGER.log(Level.SEVERE, "Formato incorrecto", e);
         }
-        if(!vcRuleGroup.equals("GRUPO_ET_TOKEN")){
+        if (!vcRuleGroup.equals("GRUPO_ET_TOKEN")) {
             isToken = false;
         }
 
@@ -68,17 +72,16 @@ public class ExecuteTesting {
                 boolean validation = validateTags.isACorrectValue(tagName, (String) collectionTestingTag.get(tagName));
                 validateDataTesting.append("Validación : ").append(validation).append("\n");
 
-                if(!validation){
-                    if (testExpectedResult == ""){
+                if (!validation) {
+                    if (testExpectedResult == "") {
                         testExpectedResult = "Resultado esperado: ERROR\nEl servicio debe indicar que los siguientes tags presentan error: " + tagName + " ";
-                    }
-                    else {
+                    } else {
                         testExpectedResult += ",\n" + tagName;
                     }
                 }
             }
 
-            if (testExpectedResult == ""){
+            if (testExpectedResult == "") {
                 testExpectedResult = "Resultado esperado: ÉXITO";
             }
 
@@ -86,7 +89,7 @@ public class ExecuteTesting {
             String respuesta = "";
 
             try {
-                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService, jdbcTemplate, dsbCfgAdocQuery, vcRuleGroup, serviceName, isToken);
+                respuesta = sendJSON.sendReqTestRest(tagsNames, collectionTestingTag, urlService, jdbcTemplateWarMachine.getDS(), dsbCfgAdocQuery, vcRuleGroup, serviceName, isToken);
                 resultsTest.setResponseTest(respuesta);
                 //resultsTest.setToken(sendJSON.obtainValueOfJSONResponse("token", respuesta));
                 resultados.add(resultsTest);

@@ -6,7 +6,8 @@ public class ResultsTest {
     private String respuesta;
     private String token;
 
-    public ResultsTest(){}
+    public ResultsTest() {
+    }
 
     public void setDataTestingValidates(String validateDataTesting) {
         this.validateDataTesting = validateDataTesting;

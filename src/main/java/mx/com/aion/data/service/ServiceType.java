@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class ServiceType {
 
     public Object obtainPojoByServiceName(String serviceName, JSONObject json) {
-        switch (serviceName){
+        switch (serviceName) {
             case "etGetCatalog":
                 return obtainPojoEtGetCatalog(json);
             case "etToken":
@@ -17,11 +17,11 @@ public class ServiceType {
         return "No existe el servicio";
     }
 
-    private EtGetCatalog obtainPojoEtGetCatalog(JSONObject json){
+    private EtGetCatalog obtainPojoEtGetCatalog(JSONObject json) {
         return new Gson().fromJson(json.toString(), EtGetCatalog.class);
     }
 
-    private EtToken obtainPojoEtToken(JSONObject json){
+    private EtToken obtainPojoEtToken(JSONObject json) {
         return new Gson().fromJson(json.toString(), EtToken.class);
     }
 

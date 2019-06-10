@@ -24,7 +24,7 @@ public class ServiceDAOImp implements IServiceDAO {
     @Override
     public Map<String, ServiceTagsParameters> obtainDataParameters(String serviceName) {
         Map<String, ServiceTagsParameters> tagsParametersMap = new HashMap<>();
-        List<ServiceTagsParameters> listaServiceTagsParameters = jdbcTemplate.query(dsbCfgAdcQueryDao.findById(GET_ALL_INFO_PARAMETERS.getValue()).get().getVcQueryStatement(), new Object[]{serviceName},new BeanPropertyRowMapper<>(ServiceTagsParameters.class));
+        List<ServiceTagsParameters> listaServiceTagsParameters = jdbcTemplate.query(dsbCfgAdcQueryDao.findById(GET_ALL_INFO_PARAMETERS.getValue()).get().getVcQueryStatement(), new Object[]{serviceName}, new BeanPropertyRowMapper<>(ServiceTagsParameters.class));
 
         for (ServiceTagsParameters listaServiceTagsParameter : listaServiceTagsParameters) {
             tagsParametersMap.put(listaServiceTagsParameter.getTagNameId(), listaServiceTagsParameter);
@@ -54,10 +54,10 @@ public class ServiceDAOImp implements IServiceDAO {
 
     @Override
     public boolean registerDataResults(String serviceName, String urlService, String request, String testExpectedResult, String expectedResults,
-                                  String response, String testingResults) {
+                                       String response, String testingResults) {
 
         int idService = jdbcTemplate.queryForList(dsbCfgAdcQueryDao.findById(GET_SERVICE_ID.getValue()).get().getVcQueryStatement(), new Object[]{serviceName}, Integer.class).get(0);
-        jdbcTemplate.update(dsbCfgAdcQueryDao.findById(SET_RESULTS_TESTING.getValue()).get().getVcQueryStatement(),idService, urlService, request, testExpectedResult , expectedResults, response, testingResults);
+        jdbcTemplate.update(dsbCfgAdcQueryDao.findById(SET_RESULTS_TESTING.getValue()).get().getVcQueryStatement(), idService, urlService, request, testExpectedResult, expectedResults, response, testingResults);
         return true;
     }
 

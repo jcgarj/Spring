@@ -2,20 +2,20 @@ package mx.com.aion.data.models.entity;
 
 public class ServiceTagsParameters {
 
-    private String  tagNameId;
-    private int     minLength;
-    private int     maxLength;
-    private String  tagTypeDesc;
+    private String tagNameId;
+    private int minLength;
+    private int maxLength;
+    private String tagTypeDesc;
     private boolean obligatory;
-    private int     dayLenght;
-    private int     monthLenght;
-    private int     yearLenght;
-    private int     amountIntLenght;
-    private int     amountDecLenght;
-    private String  split;
-    private String  format;
-    private String  tagValues;
-    private String  depStructure;
+    private int dayLenght;
+    private int monthLenght;
+    private int yearLenght;
+    private int amountIntLenght;
+    private int amountDecLenght;
+    private String split;
+    private String format;
+    private String tagValues;
+    private String depStructure;
     private String vcRuleGroup;
 
     public String getTagNameId() {

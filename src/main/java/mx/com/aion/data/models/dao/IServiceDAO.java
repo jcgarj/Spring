@@ -9,9 +9,14 @@ public interface IServiceDAO {
 
     boolean registerDataResults(String serviceName, String urlService, String request, String dataValidation,
                                 String expectedResults, String response, String testingResults);
+
     Map<String, ServiceTagsParameters> obtainDataParameters(String serviceName);
+
     List<String> obtainTagsNames(String serviceName);
+
     String obtainPathMatrixByServiceName(String serviceName);
+
     String obtainUrlServiceByServiceName(String serviceName);
+
     String obtainVcRuleGroupByServiceName(String serviceName);
 }

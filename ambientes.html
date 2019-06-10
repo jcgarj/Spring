@@ -1,108 +1,108 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
 
-    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+<link rel="stylesheet" href="fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
+<link rel="stylesheet" href="css/owl.theme.default.min.css">
 
-    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
-    <link rel="stylesheet" href="css/aos.css">
+<link rel="stylesheet" href="css/bootstrap-datepicker.css">
 
-    <link rel="stylesheet" href="css/style.css">
-    
-    <head></head>
-    <body>
-        <header th:replace="layout/layout :: header"></header>
-        <div class="container">
-            <div class="col-md-12">
-                <div class="card-header" th:text="${titulo}"></div>
-               		<form role="search">
-               			<div>
-               			<input type="search" id="Registros" name="registros" placeholder="Encuentra tu Servidor">
-               			<button>Buscar</button>
-               			</div>
-               		</form>
-                	<div class="col-md-8">
-	                	<div class="table-responsive">
-	                    	<table class="table table-striped">
-	                        	<thead>
-	                        	<tr>
-		                            <th scope="col">Cliente</th>
-		                            <th scope="col">Proyecto</th>
-		                            <th scope="col">Ambiente</th>
-		                            <th scope="col">Navegador</th>
-		                            <th scope="col">IP Dashboard</th>
-		                            <th scope="col">Puerto Dashboard</th>
-		                            <th scope="col">Usuario Dashboard</th>
-		                            <th scope="col">ContraseÃ±a Dashboard</th>
-		                            <th scope="col">URL Dashboard</th>
-		                            <th scope="col">Tipo de Servidor</th>
-		                            <th scope="col">Subtipo de Servidor</th>
-		                            <th scope="col">IP del Servidor</th>
-		                            <th scope="col">Puerto del Servidor</th>
-		                            <th scope="col">Usuario del Servidor</th>
-		                            <th scope="col">ContraseÃ±a del Servidor</th>
-		                            <th scope="col">URL del Dashboard</th>
-		                            <th scope="col">Esquema</th>
-		                        </tr>
-		                        </thead>
-		                        <tbody>
-		                        <tr th:each="ambiente: ${ambientes}">
-		                            <td th:text="${ambiente.vcClientName}"></td>
-		                            <td th:text="${ambiente.vcProjectName}"></td>
-		                            <td th:text="${ambiente.vcDashboardType}"></td>
-		                            <td th:text="${ambiente.vcBrowser}"></td>
-		                            <td th:text="${ambiente.vcIp}"></td>
-		                            <td th:text="${ambiente.vcPort}"></td>
-		                            <td th:text="${ambiente.vcLoginUsr}"></td>
-		                            <td th:text="${ambiente.vcLoginPass}"></td>
-		                            <td th:text="${ambiente.vcUrl}"></td>
-		                            <td th:text="${ambiente.vcServerTypeName}"></td>
-		                            <td th:text="${ambiente.vcServerType}"></td>
-		                            <td th:text="${ambiente.vcServerIp}"></td>
-		                            <td th:text="${ambiente.vcServerPort}"></td>
-		                            <td th:text="${ambiente.vcServerUsr}"></td>
-		                            <td th:text="${ambiente.vcServerPass}"></td>
-		                            <td th:text="${ambiente.vcServerUrl}"></td>
-		                            <td th:text="${ambiente.vcServerSchema}"></td>
-		                        </tr>
-		                        </tbody>
-		                    </table>
-	                	</div>
-	           		</div> 
-            	</div>
-        	</div>
-        <footer th:replace="layout/layout :: footer"></footer>
-    
- <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/jquery.countdown.min.js"></script>
-  <script src="js/bootstrap-datepicker.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.fancybox.min.js"></script>
-  <script src="js/jquery.sticky.js"></script>
+<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 
-  
-  <script src="js/main.js"></script>
-  
-  </body>
+<link rel="stylesheet" href="css/aos.css">
+
+<link rel="stylesheet" href="css/style.css">
+
+<head></head>
+<body>
+<header th:replace="layout/layout :: header"></header>
+<div class="container">
+    <div class="col-md-12">
+        <div class="card-header" th:text="${titulo}"></div>
+        <form role="search">
+            <div>
+                <input type="search" id="Registros" name="registros" placeholder="Encuentra tu Servidor">
+                <button>Buscar</button>
+            </div>
+        </form>
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Proyecto</th>
+                        <th scope="col">Ambiente</th>
+                        <th scope="col">Navegador</th>
+                        <th scope="col">IP Dashboard</th>
+                        <th scope="col">Puerto Dashboard</th>
+                        <th scope="col">Usuario Dashboard</th>
+                        <th scope="col">ContraseÃ±a Dashboard</th>
+                        <th scope="col">URL Dashboard</th>
+                        <th scope="col">Tipo de Servidor</th>
+                        <th scope="col">Subtipo de Servidor</th>
+                        <th scope="col">IP del Servidor</th>
+                        <th scope="col">Puerto del Servidor</th>
+                        <th scope="col">Usuario del Servidor</th>
+                        <th scope="col">ContraseÃ±a del Servidor</th>
+                        <th scope="col">URL del Dashboard</th>
+                        <th scope="col">Esquema</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ambiente: ${ambientes}">
+                        <td th:text="${ambiente.vcClientName}"></td>
+                        <td th:text="${ambiente.vcProjectName}"></td>
+                        <td th:text="${ambiente.vcDashboardType}"></td>
+                        <td th:text="${ambiente.vcBrowser}"></td>
+                        <td th:text="${ambiente.vcIp}"></td>
+                        <td th:text="${ambiente.vcPort}"></td>
+                        <td th:text="${ambiente.vcLoginUsr}"></td>
+                        <td th:text="${ambiente.vcLoginPass}"></td>
+                        <td th:text="${ambiente.vcUrl}"></td>
+                        <td th:text="${ambiente.vcServerTypeName}"></td>
+                        <td th:text="${ambiente.vcServerType}"></td>
+                        <td th:text="${ambiente.vcServerIp}"></td>
+                        <td th:text="${ambiente.vcServerPort}"></td>
+                        <td th:text="${ambiente.vcServerUsr}"></td>
+                        <td th:text="${ambiente.vcServerPass}"></td>
+                        <td th:text="${ambiente.vcServerUrl}"></td>
+                        <td th:text="${ambiente.vcServerSchema}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="layout/layout :: footer"></footer>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.stellar.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script src="js/jquery.easing.1.3.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/jquery.sticky.js"></script>
+
+
+<script src="js/main.js"></script>
+
+</body>
 </html>

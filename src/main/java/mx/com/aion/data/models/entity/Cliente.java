@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Cliente implements Serializable {//Ocupa JdbcTemplate
 
-    private  Long id;
+    private Long id;
     private String nombre;
     private String apellido;
     private String email;

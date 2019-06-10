@@ -1,10 +1,13 @@
 package mx.com.aion.data.controller;
 
+import mx.com.aion.data.datasources.JDBCTemplateEasyTransfer;
+import mx.com.aion.data.datasources.JDBCTemplateWarMachine;
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
 import mx.com.aion.data.models.entity.ResultsTest;
 import mx.com.aion.data.models.entity.entity.DsbCfgAdocQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
@@ -28,25 +31,33 @@ public class ValidateAplicationController {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    @Qualifier("warmachine")
+    private JDBCTemplateWarMachine jdbcTemplateWarMachine;
+
+    @Autowired
+    @Qualifier("easytransfer")
+    private JDBCTemplateEasyTransfer jdbcTemplateEasyTransfer;
+
+    @Autowired
     private IDsbCfgAdcQueryDao dsbCfgAdocQuery;
 
     @GetMapping(value = "/clientes")
-    public List<Cliente> getClientes(){
+    public List<Cliente> getClientes() {
         return jdbcTemplate.query("select * from clientes", new BeanPropertyRowMapper<>(Cliente.class));
     }
 
     @GetMapping("/listaReglas")
-    public List<DsbCfgAdocQuery> getReglas(){
+    public List<DsbCfgAdocQuery> getReglas() {
         return jdbcTemplate.query("select * from DSB_CFG_ADOC_QUERY", new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
     }
 
     @GetMapping("/reglas")
-    public List<DsbCfgAdocQuery> getQuery(){
+    public List<DsbCfgAdocQuery> getQuery() {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
     }
 
     @GetMapping("/borrarreglas")
-    public List<DsbCfgAdocQuery> deleteQuery(Model model){
+    public List<DsbCfgAdocQuery> deleteQuery(Model model) {
         dsbCfgAdocQuery.deleteById("query1");
         dsbCfgAdocQuery.deleteById("query2");
         System.out.println();
@@ -56,14 +67,14 @@ public class ValidateAplicationController {
     }
 
     @GetMapping("/revisar")
-    public DsbCfgAdocQuery find(Model model){
+    public DsbCfgAdocQuery find(Model model) {
         DsbCfgAdocQuery dsbCfgAdocQuery = jdbcTemplate.queryForObject(sql, new Object[]{paramId}, new BeanPropertyRowMapper<>(DsbCfgAdocQuery.class));
         return dsbCfgAdocQuery;
     }
 
     @GetMapping("/test/{id}")
-    public ArrayList<ResultsTest> test(@PathVariable(value = "id") String id){
-        ExecuteTesting executeTesting = new ExecuteTesting(jdbcTemplate, dsbCfgAdocQuery);
+    public ArrayList<ResultsTest> test(@PathVariable(value = "id") String id) {
+        ExecuteTesting executeTesting = new ExecuteTesting(jdbcTemplateWarMachine, jdbcTemplateEasyTransfer, dsbCfgAdocQuery);
         return executeTesting.executeTesting(id);
     }
 

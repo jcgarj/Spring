@@ -31,24 +31,24 @@ public class ClienteController {
     private IDsbCfgAdcQueryDao iDsbCfgAdcQueryDao;
 
     @RequestMapping(value = "/listar", method = RequestMethod.GET)
-    public String listar(Model model){
+    public String listar(Model model) {
         model.addAttribute("titulo", "Listado de clientes");
         model.addAttribute("clientes", jdbcTemplate.query(iDsbCfgAdcQueryDao.findById(GET_ALL_CLIENTS.getValue()).get().getVcQueryStatement(), new BeanPropertyRowMapper<>(Cliente.class)));
         return "listar";
     }
 
     @RequestMapping(value = "/index")
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @RequestMapping(value = "/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @RequestMapping(value = "/form")
-    public String crear(Map<String,Object> model){
+    public String crear(Map<String, Object> model) {
 
         Cliente cliente = new Cliente();
         model.put("cliente", cliente);
@@ -57,12 +57,11 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/form/{id}")
-    public String editar(@PathVariable(value = "id") Long id, Map<String,Object> model){
+    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model) {
         Cliente cliente;
-        if(id > 0){
+        if (id > 0) {
             cliente = jdbcTemplate.queryForObject(iDsbCfgAdcQueryDao.findById(GET_CLIENT_BY_ID.getValue()).get().getVcQueryStatement(), new Object[]{id}, new BeanPropertyRowMapper<>(Cliente.class));
-        }
-        else{
+        } else {
             return "redirect:/listar";
         }
         model.put("cliente", cliente);
@@ -71,8 +70,8 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/eliminar/{id}")
-    public String eliminar(@PathVariable(value = "id") Long id){
-        if(id > 0 ){
+    public String eliminar(@PathVariable(value = "id") Long id) {
+        if (id > 0) {
 
             System.out.println(jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(DELETE_CLIENT_BY_ID.getValue()).get().getVcQueryStatement(), id));//El rowmapper aplica para selects
         }
@@ -80,22 +79,22 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status){
-        if (result.hasErrors()){
+    public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status) {
+        if (result.hasErrors()) {
             model.addAttribute("titulo", "Formulario de Cliente");
             return "form";
         }
-        if (cliente.getId() == null ){
-            jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(SET_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getId(), cliente.getNombre(), cliente.getApellido(),cliente.getEmail(), cliente.getCrateAt());
-        }else {
-            jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(UPDATE_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getNombre(), cliente.getApellido(),cliente.getEmail(), cliente.getCrateAt(), cliente.getId());
+        if (cliente.getId() == null) {
+            jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(SET_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getId(), cliente.getNombre(), cliente.getApellido(), cliente.getEmail(), cliente.getCrateAt());
+        } else {
+            jdbcTemplate.update(iDsbCfgAdcQueryDao.findById(UPDATE_CLIENT.getValue()).get().getVcQueryStatement(), cliente.getNombre(), cliente.getApellido(), cliente.getEmail(), cliente.getCrateAt(), cliente.getId());
         }
         status.setComplete();
         return "redirect:listar";
     }
 
     @RequestMapping(value = "/ambientes", method = RequestMethod.GET)
-    public String listarAmbientes(Model model){
+    public String listarAmbientes(Model model) {
         model.addAttribute("titulo", "Listado de ambientes");
         model.addAttribute("ambientes", jdbcTemplate.query(iDsbCfgAdcQueryDao.findById(GET_ALL_ENVIROREMENTS.getValue()).get().getVcQueryStatement(), new BeanPropertyRowMapper<>(DataSheet.class)));
         return "ambientes";

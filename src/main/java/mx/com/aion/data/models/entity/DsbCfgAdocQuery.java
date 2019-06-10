@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-@Entity(name="\"DSB_CFG_ADOC_QUERY\"")
-@Table(name="\"DSB_CFG_ADOC_QUERY\"")
+@Entity(name = "\"DSB_CFG_ADOC_QUERY\"")
+@Table(name = "\"DSB_CFG_ADOC_QUERY\"")
 public class DsbCfgAdocQuery implements Serializable {//Ocupa hibernate
 
     @Id
