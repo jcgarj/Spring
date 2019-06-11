@@ -4,7 +4,7 @@ import mx.com.aion.data.datasources.JDBCTemplateEasyTransfer;
 import mx.com.aion.data.datasources.JDBCTemplateWarMachine;
 import mx.com.aion.data.models.dao.IDsbCfgAdcQueryDao;
 import mx.com.aion.data.models.entity.Cliente;
-import mx.com.aion.data.models.entity.entity.DsbCfgAdocQuery;
+import mx.com.aion.data.models.entity.DsbCfgAdocQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

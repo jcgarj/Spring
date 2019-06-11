@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 //import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
@@ -20,8 +21,12 @@ public class GenerateToken {
         request.headers("Content-Type", "application/json");
 
         JSONObject json = new JSONObject();
-        json.put("username", "lmarquez");
-        json.put("application", "ETM");
+        try {
+            json.put("username", "lmarquez");
+            json.put("application", "ETM");
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         request.body(json.toString());
         System.out.println(json.toString());

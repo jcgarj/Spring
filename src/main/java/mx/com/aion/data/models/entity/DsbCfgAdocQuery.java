@@ -1,8 +1,8 @@
-package mx.com.aion.data.models.entity.entity;
+package mx.com.aion.data.models.entity;
 
-import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
